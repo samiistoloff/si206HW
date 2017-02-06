@@ -34,7 +34,16 @@ def parse_counted_words(s):
 
 ## (a) Write Python code to determine how many of these paths identify FILES, not directories. Save that number in the variable file_paths_num.
 
+file_p = open('./computer_paths.txt', 'r')
+contents = file_p.read()
+
+files_find = re.findall('\.\w+', contents)
+file_paths_num = len(files_find)
+
 ## (b) Write Python code to determine how many of these paths are FULL paths, not relative paths. Save that number in the variable full_paths_num.
+
+fullpath = re.findall('~\/|\/Users', contents)
+full_paths_num = len(fullpath)
 
 ## (c) Write Python code to determine how many of these paths describe a Python file saved inside a folder called SI206. Save that number in the variable python_course_paths.
 
