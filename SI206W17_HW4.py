@@ -32,10 +32,6 @@ except:
 ## PART 2 (200 points)
 ## Write code to get the first 10 headlines from the New York Times, based on the data you saved in the file in Part 1, and save those strings in a list called nytimes_headlines. 
 
-soup = BeautifulSoup(html_text, "html.parser")
-story_headlines = soup.find_all(class_ = 'story-heading')
-nytimes_headlines = []
-
 
 ## Note that you will almost certainly need to do some investigation on the http://nytimes.com website to do this correctly, even after saving the file in Part 1.
 
@@ -54,13 +50,17 @@ nytimes_headlines = []
 ## We have included a couple of unit tests to check some things about your result, but we will also be checking your code against our OWN version of a nytimes_data.html file, which will almost certainly be different from yours, and your code should still work to get the first 10 text headlines from our file!
 
 ## Write your code to complete this task here.
+
 ## HINT: Remember that you'll need to open the file you created in Part 1, read the contets into one big string, and make a BeautifulSoup object out of that string!
 ## NOTE that the provided link does not include saving the online data in a file as part of the process. But it still provides very useful hints/tricks about how to look for and identify the headlines on the NY Times page.
 
-# soup = BeautifulSoup(r.content, "html.parser")
-# story_headlines = soup.find_all(class_ = 'story-heading')
-# nytimes_headlines = []
+headlines = []
+soup = BeautifulSoup(ny_text)
+for headline in soup.find_all(class_ = "story-heading"):
+	if headline.a:
+		headlines.append(headline.a.text.replace("\n", " ").strip())
 
+nytimes_headlines = headlines[0:10]
 
 
 #####################
