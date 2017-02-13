@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 ## SI 206 - W17 - HW4
 ## COMMENT WITH:
 ## Your section day/time: Friday, 9AM
-## Any names of people you worked with on this assignment:
+## Any names of people you worked with on this assignment: Ankita
 
 #####################
 
@@ -80,6 +80,9 @@ nytimes_headlines = headlines[0:10]
 
 ## Write code to complete this task here. We've gotten you started... note that it'll be difficult to continue if you don't understand what the provided code does!
 
+names = []
+titles = []
+
 response = requests.get("https://www.si.umich.edu/directory?field_person_firstname_value=&field_person_lastname_value=&rid=All")
 htmldoc = response.text
 
@@ -94,13 +97,16 @@ umsi_titles = {}
 ## Find the container that holds the title that belongs to that person (HINT: a class name)
 ## Grab the text of each of those elements and put them in the dictionary umsi_titles properly
 
+for a in soup.find_all("div", {"property":"dc:title"}):
+	names.append(a.text)
+print (names)
 
+for a in soup.find_all("div", {"class": "field-name-field-person-titles"}):
+	titles.append(a.text)
+print (titles)
 
-
-
-
-
-
+for a in range(len(names)):
+	umsi_titles[names[a]] = titles[a]
 
 
 ######### UNIT TESTS; DO NOT CHANGE ANY CODE BELOW THIS LINE #########
