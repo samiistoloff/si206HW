@@ -52,7 +52,9 @@ except:
 ## find_urls("I love looking at websites like http://etsy.com and http://instagram.com and stuff") should return ["http://etsy.com","http://instagram.com"]
 ## find_urls("the internet is awesome #worldwideweb") should return [], empty list
 
-
+def find_urls(words):
+	m = re.findall(r'https?:\/\/\w+\.[0-9A-z\./]*\w{2}[0-9A-z/]*', words)
+	return m
 
 ## PART 2 (a) - Define a function called get_umsi_data.
 ## INPUT: N/A. No input.
