@@ -87,7 +87,21 @@ def get_umsi_data():
 ## PART 2 (b) - Create a dictionary saved in a variable umsi_titles 
 ## whose keys are UMSI people's names, and whose associated values are those people's titles, e.g. "PhD student" or "Associate Professor of Information"...
 
-
+umsi_titles = {}
+#page_dict = get_umsi_data()
+# call out get_umsi data and put into page_dict
+for page in get_umsi_data():
+	# use beautiful soup to parse through "people's information on the site"
+	soup = BeautifulSoup(page, "html.parser")
+	people_list = soup.find_all("div", {"class":"views-row"})
+	# parses through people's list
+	for person in people_list: 
+		# iterates through parsed people date and indexes content based on tites from usi and name
+		name = person.find('div', {'class': 'field-item even', 'property': 'dc:title'})
+		# parses date from name and titles and sets it equal to a dict title
+		title_dict = person.find('div', {'class': 'field field-name-field-person-titles field-type-text field-label-hidden'})
+		#upates the data from the name and the dictionary that has the titles as well. 
+		umsi_titles[name.text] = title_dict.text
 
 
 ## PART 3 (a) - Define a function get_five_tweets
