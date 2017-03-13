@@ -66,13 +66,23 @@ def find_urls(words):
 ## Start with this page: https://www.si.umich.edu/directory?field_person_firstname_value=&field_person_lastname_value=&rid=All  
 ## End with this page: https://www.si.umich.edu/directory?field_person_firstname_value=&field_person_lastname_value=&rid=All&page=11 
 
+def get_umsi_data():
+	emp_list = []
+	base_url = 'https://www.si.umich.edu/directory?field_person_firstname_value=&field_person_lastname_value=&rid=All&page='
+	if 'umsi_directory_data' in CACHE_DICTION:
+		return CACHE_DICTION['umsi_directory_data']
+	# Check if umsi_data is within cached dictionry saved
+	else:
+		for data in range(0,12):
+			x = 'https://www.si.umich.edu/directory?field_person_firstname_value=&field_person_lastname_value=&rid=All&page={}'.format(data)
+			response = requests.get(x, headers={'User-Agent': 'SI_CLASS'})
+			emp_list.append(response.text)
 
-
-
-
-
-
-
+		CACHE_DICTION['umsi_directory_data'] = emp_list
+		cache_file_obj = open(cache_filename,'w')
+		cache_file_obj.write(json.dumps(cache_contents))
+		cache_file_obj.close()
+	return CACHE_DICTION['umsi_directory_data']
 
 ## PART 2 (b) - Create a dictionary saved in a variable umsi_titles 
 ## whose keys are UMSI people's names, and whose associated values are those people's titles, e.g. "PhD student" or "Associate Professor of Information"...
