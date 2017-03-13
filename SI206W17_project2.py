@@ -109,17 +109,34 @@ for page in get_umsi_data():
 ## Behavior: See instructions. Should search for the input string on twitter and get results. Should check for cached data, use it if possible, and if not, cache the data retrieved.
 ## RETURN VALUE: A list of strings: A list of just the text of 5 different tweets that result from the search.
 
+def get_five_tweets(phrase):
+	unique_identifier = "twitter_{}".format(phrase)
+	if 'twitter_University of Michigan' in CACHE_DICTION:
+		twitter_results = CACHE_DICTION['twitter_University of Michigan']
+	else:
+		twitter_results = api.search(q = phrase)
+		CACHE_DICTION['twitter_University of Michigan'] = twitter_results
+		cache_file_obj = open(cache_filename,'w')
+		cache_file_obj.write(json.dumps(cache_contents))
+		cache_file_obj.close()
+	tweet_texts = []
+	for tweet in twitter_results["statuses"]:
+		tweet_texts.append(tweet["text"])
+	return tweet_texts[:5]
 
 
 ## PART 3 (b) - Write one line of code to invoke the get_five_tweets function with the phrase "University of Michigan" and save the result in a variable five_tweets.
 
 
-
+five_tweets = get_five_tweets("University of Michigan")
 
 
 ## PART 3 (c) - Iterate over the five_tweets list, invoke the find_urls function that you defined in Part 1 on each element of the list, and accumulate a new list of each of the total URLs in all five of those tweets in a variable called tweet_urls_found. 
 
-
+tweet_urls_found = []
+for s in five_tweets:
+	for my_url in find_urls(s):
+		tweet_urls_found.append(my_url)
 
 
 ########### TESTS; DO NOT CHANGE ANY CODE BELOW THIS LINE! ###########
