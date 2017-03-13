@@ -28,13 +28,19 @@ auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 auth.set_access_token(access_token, access_token_secret)
 
 # Set up to be able grab stuff from twitter with your authentication using Tweepy methods, and return it in a JSON format 
-
+api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 
 ## Part 0 -- CACHING SETUP
 
 ## Write the code to begin your caching pattern setup here.
 
-
+cache_filename = "206project2_caching.json"
+try:
+  cache_file_obj = open(cache_filename,'r') 
+  cache_contents = cache_file_obj.read() 
+  CACHE_DICTION = json.loads(cache_contents)
+except:
+	CACHE_DICTION = {}
 
 
 ## PART 1 - Define a function find_urls.
